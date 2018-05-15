@@ -1,0 +1,11 @@
+{
+  "name": "mws-restaurant-stage-1",
+  "version": "1.0.0",
+  "description": "Mobile Web Specialist Restaurant Reviews App: Stage 1 project",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "author": "Ivan Lim",
+  "license": "MIT"
+}
