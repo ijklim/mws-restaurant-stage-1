@@ -14,6 +14,31 @@
   padding: 0px;
   margin: 10px;
   width: calc((450px - 12px * 2) / 1);
+  border: 1px solid #999;
+  border-radius: 16px;
+}
+
+/* Rounded top corners for restaurant thumbnails */
+#restaurants-list li img {
+  border-radius: 15px 15px 0 0;
+}
+
+/* Button: View Details */
+#restaurants-list li a {
+  display: block;
+  border: 0;
+  border-radius: 5px;
+  background: #0d47a1;
+}
+
+#restaurants-list li a:hover,
+#restaurants-list li a:focus {
+  background: #1e88e5;
+}
+
+/* Improves accessibility contrast */
+#restaurants-list li h1 {
+  color: #BF360C;
 }
 
 /*
@@ -42,3 +67,7 @@
   }
 }
 
+/* Info section below thumbnail image */
+.restaurant-info {
+  padding: 0 15px 15px;
+}

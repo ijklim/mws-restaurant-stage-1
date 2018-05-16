@@ -2,3 +2,8 @@
 nav h1 {
   padding-top: 23px;
 }
+
+/* Improves accessibility contrast */
+#footer {
+  background-color: #252831;
+}
