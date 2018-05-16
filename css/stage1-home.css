@@ -19,6 +19,15 @@
   border-radius: 16px;
 }
 
+/* Larger font size, overwrite styles.css */
+#restaurants-list li h1 {
+  font-size: 24px;
+}
+
+#restaurants-list li p {
+  font-size: 18px;
+}
+
 /* Rounded top corners for restaurant thumbnails */
 #restaurants-list li img {
   border-radius: 15px 15px 0 0;

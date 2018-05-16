@@ -3,6 +3,11 @@
   box-sizing: border-box;
 }
 
+/* Overwrite font-size in styles.css */
+body, td, th, p {
+  font-size: 18px;
+}
+
 /* Vertically align header */
 nav h1 {
   padding-top: 23px;
