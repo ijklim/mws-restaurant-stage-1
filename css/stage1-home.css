@@ -8,12 +8,13 @@
   flex-wrap: wrap;
   max-width: 450px;
   margin: auto;
+  padding: 20px 0;
 }
 
 #restaurants-list li {
-  padding: 0px;
+  padding: 0;
   margin: 10px;
-  width: calc((450px - 12px * 2) / 1);
+  width: calc((450px - 10px * 2) / 1);
   border: 1px solid #999;
   border-radius: 16px;
 }
@@ -50,7 +51,7 @@
   }
 
   #restaurants-list li {
-    width: calc((700px - 12px * 4) / 2);
+    width: calc((700px - 10px * 4) / 2);
   }
 }
 
@@ -63,7 +64,7 @@
   }
 
   #restaurants-list li {
-    width: calc((1100px - 12px * 6) / 3);
+    width: calc((1100px - 10px * 6) / 3);
   }
 }
 

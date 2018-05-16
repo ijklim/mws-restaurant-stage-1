@@ -1,3 +1,8 @@
+* {
+  /* Include padding and border in the element's total width and height */
+  box-sizing: border-box;
+}
+
 /* Vertically align header */
 nav h1 {
   padding-top: 23px;
