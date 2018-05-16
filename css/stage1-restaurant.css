@@ -4,7 +4,7 @@
 #breadcrumb {
   /* Leave room for header */
   margin-top: 80px;
-  padding: 5px 20px;  
+  padding: 5px 20px;
 }
 
 /* Default map height is full screen */
@@ -37,6 +37,7 @@ h1 {
   font-size: 20px;
 }
 
+/* Reviews */
 #reviews-list li {
   background-color: #fff;
   border: 1px solid #999;
@@ -45,10 +46,55 @@ h1 {
   list-style-type: none;
   margin: 0 0 30px;
   overflow: hidden;
-  padding: 40px;
+  padding: 0;
   position: relative;
   width: 100%;
 }
+
+/* To avoid footer overlap */
+#reviews-list li:last-child {
+  margin-bottom: 80px;
+}
+
+#reviews-list li .header,
+#reviews-list li div {
+  padding: 10px;
+}
+
+#reviews-list li .header {
+  background-color: #252831;
+  color: white;
+  font-size: 1.3rem;
+}
+
+/* Rating */
+#reviews-list li [class^="rating-"] {
+  padding: 10px;
+  border-radius: 3px;
+  font-size: 1.2rem;
+  display: inline-block;
+}
+
+/* Color code ratings base on result */
+#reviews-list li .rating-5,
+#reviews-list li .rating-4 {
+  background-color: #2e7d32;
+  color: white;
+}
+
+#reviews-list li .rating-3 {
+  background-color: #fff59d;
+  color: black;
+}
+
+#reviews-list li .rating-2,
+#reviews-list li .rating-1,
+#reviews-list li .rating-0 {
+  background-color: red;
+  color: black;
+}
+
+
 
 @media screen and (max-width: 800px) {
   /* Full screen width instead of half */
