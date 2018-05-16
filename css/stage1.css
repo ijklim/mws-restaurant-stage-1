@@ -1,6 +1,7 @@
 * {
   /* Include padding and border in the element's total width and height */
   box-sizing: border-box;
+  font-family: 'Roboto', sans-serif, Arial;
 }
 
 /* Overwrite font-size in styles.css */
