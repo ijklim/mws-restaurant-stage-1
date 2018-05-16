@@ -1,0 +1,65 @@
+/*
+   Note: Height of header = nav = 80px;
+*/
+#breadcrumb {
+  /* Leave room for header */
+  margin-top: 80px;
+  padding: 5px 20px;  
+}
+
+/* Default map height is full screen */
+.inside #map-container {
+  height: 100vh;
+}
+
+/* Clearer breadcrumb text */
+#breadcrumb li {
+  font-size: 28px;
+}
+
+h1 {
+  color: #f18200;
+  font-size: 20pt;
+  font-weight: 200;
+  letter-spacing: 0;
+  text-transform: uppercase;
+  line-height: 1.1;
+  padding-top: 20px;
+}
+
+#restaurant-img,
+#restaurant-cuisine {
+  width: 100%;
+}
+
+/* Larger font size, overwrite styles.css */
+#restaurant-address {
+  font-size: 20px;
+}
+
+#reviews-list li {
+  background-color: #fff;
+  border: 1px solid #999;
+  border-radius: 5px;
+  display: block;
+  list-style-type: none;
+  margin: 0 0 30px;
+  overflow: hidden;
+  padding: 40px;
+  position: relative;
+  width: 100%;
+}
+
+@media screen and (max-width: 800px) {
+  /* Full screen width instead of half */
+  /* .inside #restaurant-container,
+  .inside #map-container {
+    width: 100%;
+  } */
+
+  .inside #map-container {
+    height: 30vh;
+    /* Undo fixed position */
+    position: static;
+  }
+}

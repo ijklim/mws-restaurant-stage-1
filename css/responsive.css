@@ -1,4 +1,5 @@
-.container {
+.container,
+.col-12 {
   width: 100%;
   margin: auto;
 }
@@ -16,12 +17,11 @@
 
 /* md */
 @media screen and (min-width: 800px) {
-  .container {
-
-  }
-
   .col-md-6 {
     width: calc((100% - 10px * 4) / 2);
+  }
+  .col-md-6.m-0 {
+    width: 50%;
   }
 }
 
@@ -34,4 +34,12 @@
   .col-lg-4 {
     width: calc((100% - 10px * 6) / 3);
   }
+}
+
+.p-0 {
+  padding: 0;
+}
+
+.m-0 {
+  margin: 0;
 }
