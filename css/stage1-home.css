@@ -1,20 +1,4 @@
-/*
-  Default: 
-  * Support multiple reviews per row using flex
-  * Smaller screen, 1 item per row
-*/
-#restaurants-list {
-  display: flex;
-  flex-wrap: wrap;
-  max-width: 450px;
-  margin: auto;
-  padding: 20px 0;
-}
-
 #restaurants-list li {
-  padding: 0;
-  margin: 10px;
-  width: calc((450px - 10px * 2) / 1);
   border: 1px solid #999;
   border-radius: 16px;
 }
@@ -49,32 +33,6 @@
 /* Improves accessibility contrast */
 #restaurants-list li h1 {
   color: #BF360C;
-}
-
-/*
-  Medium screen, 2 item per row
-*/
-@media screen and (min-width: 750px) {
-  #restaurants-list {
-    max-width: 700px;
-  }
-
-  #restaurants-list li {
-    width: calc((700px - 10px * 4) / 2);
-  }
-}
-
-/*
-  Large screen, 3 item per row
-*/
-@media screen and (min-width: 1150px) {
-  #restaurants-list {
-    max-width: 1100px;
-  }
-
-  #restaurants-list li {
-    width: calc((1100px - 10px * 6) / 3);
-  }
 }
 
 /* Info section below thumbnail image */
