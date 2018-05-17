@@ -19,7 +19,7 @@ Prerequisite: Node.js installed
 
 To check whether Node.js is installed, and the version, run `node -v`
 
-```
+```bash
 cd <project_folder>
 npm install
 npm start
