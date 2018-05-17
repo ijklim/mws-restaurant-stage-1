@@ -1,4 +1,4 @@
-let CACHE_NAME = 'mws-restaurant-v1';
+let CACHE_NAME = 'mws-restaurant-v2';
 
 self.addEventListener('fetch', function(event) {
   event.respondWith(caches.open(CACHE_NAME).then(cache => {
