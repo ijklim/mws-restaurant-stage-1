@@ -18,4 +18,9 @@ function registerServiceWorker() {
 
 // Document.ready
 document.addEventListener("DOMContentLoaded", function(event) {
+  // Change home page link
+  document.querySelector("nav h1 a").setAttribute("href", "./");
+
+  // Change footer info
+  document.querySelector("footer").innerHTML = `Copyright (c) ${(new Date).getFullYear()} <a href="./"><strong>Restaurant Reviews</strong></a> All Rights Reserved.`;
 });
