@@ -7,7 +7,7 @@ if ('serviceWorker' in navigator) {
 
 function registerServiceWorker() {
   // Service worker script must be in root as it cannot control requests in parent folders
-  navigator.serviceWorker.register('/sw.js', {scope: '/'})
+  navigator.serviceWorker.register('./sw.js')
     .then(reg => {
       // console.log(`[Comment] Service worker registered under scope: ${reg.scope}`);
     })
