@@ -1,10 +1,12 @@
-# Mobile Web Specialist Certification Course: Stage 1
+# Mobile Web Specialist Certification Course: Stage 2
 
 ## Installation instructions for Windows
 
-Prerequisite: Python 3 installed
+Clone the server repository - https://github.com/ijklim/mws-restaurant-stage-2. Follow the README instructions to run the server.
 
-To check whether Python is installed, and the version, run `python -V`
+Python 3 is required to run the client. To check whether Python is installed, and the version, run `python -V`
+
+Start the client:
 
 ```bash
 cd <project_folder>
