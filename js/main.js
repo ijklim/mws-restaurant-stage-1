@@ -1,8 +1,8 @@
 let restaurants,
   neighborhoods,
-  cuisines
-var map
-var markers = []
+  cuisines;
+var map;
+var markers = [];
 
 /**
  * Fetch neighborhoods and cuisines as soon as the page is loaded.
@@ -16,13 +16,12 @@ document.addEventListener('DOMContentLoaded', (event) => {
  * Fetch all neighborhoods and set their HTML.
  */
 fetchNeighborhoods = () => {
+
   DBHelper.fetchNeighborhoods((error, neighborhoods) => {
-    if (error) { // Got an error
-      console.error(error);
-    } else {
-      self.neighborhoods = neighborhoods;
-      fillNeighborhoodsHTML();
-    }
+    if (error) return console.error('[Error DBHelper.fetchNeighborhoods] ' + error);
+
+    self.neighborhoods = neighborhoods;
+    fillNeighborhoodsHTML();
   });
 }
 
@@ -80,6 +79,7 @@ window.initMap = () => {
     center: loc,
     scrollwheel: false
   });
+  document.getElementById('map').setAttribute('role', 'application');
   updateRestaurants();
 }
 
