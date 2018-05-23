@@ -141,9 +141,12 @@ createRestaurantHTML = (restaurant) => {
 
   const image = document.createElement('img');
   image.className = 'restaurant-img';
-  image.src = DBHelper.imageUrlForRestaurant(restaurant);
+  // image.src = DBHelper.imageUrlForRestaurant(restaurant);
+  image.src = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
+  image.setAttribute('data-src', DBHelper.imageUrlForRestaurant(restaurant));
   image.setAttribute('alt', `${restaurant.name} in neighborhood ${restaurant.neighborhood}`);
   li.append(image);
+  // console.log(`[Comment] Image appended: ${image.getAttribute('alt')}`);
 
   const info = document.createElement('div');
   info.className = "restaurant-info";
