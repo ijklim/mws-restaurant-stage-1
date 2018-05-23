@@ -8,22 +8,70 @@ class DBHelper {
    * Change this to restaurants.json file location on your server.
    */
   static get DATABASE_URL() {
-    return `./data/restaurants.json`;
+    // return `./data/restaurants.json`;
+    return `http://localhost:1337/restaurants`;
+  }
+
+  static get DATABASE_NAME() {
+    return `mws-idb-restaurants-v3`;
+  }
+
+  static get STORE_NAME() {
+    return `restaurants`;
   }
 
   /**
    * Fetch all restaurants.
    */
-  static fetchRestaurants(callback) {
-    fetch(DBHelper.DATABASE_URL)
-      .then(response => response.json())
-      .then(json => {
-        const restaurants = json.restaurants;
-        callback(null, restaurants);
-      })
-      .catch(error => {
-        callback(`Request failed: ${error}`, null);
-      });
+  static async fetchRestaurants(callback) {
+    // https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API/Using_IndexedDB
+    let db;
+    let request = window.indexedDB.open(DBHelper.DATABASE_NAME, 1);
+
+    request.onupgradeneeded = async function(event) {
+      // First time access, create schema here
+      db = event.target.result;
+      // Create store/table without data
+      let objectStore = db.createObjectStore(DBHelper.STORE_NAME, { keyPath: "id" });
+
+      await fetch(DBHelper.DATABASE_URL)
+        .then(response => response.json())
+        .then(json => {
+          objectStore.transaction.oncomplete = function(event) {
+            // Populate restaurants store
+            let restaurantObjectStore = db.transaction(DBHelper.STORE_NAME, "readwrite").objectStore(DBHelper.STORE_NAME);
+            json.forEach(function(restaurant) {
+              console.log(`[Comment] Adding restaurant: ${restaurant.id}`);
+              restaurantObjectStore.add(restaurant);
+            });
+          };
+        })
+        .catch(error => {
+          return callback(`Fetch request failed: ${error}`, null);
+        });
+    }
+
+    request.onsuccess = function(event) {
+      // Store exists
+      db = event.target.result;
+      let restaurants = [];
+
+      let restaurantObjectStore = db.transaction(DBHelper.STORE_NAME, "readonly").objectStore(DBHelper.STORE_NAME);
+      restaurantObjectStore.openCursor().onsuccess = function(event) {
+        let cursor = event.target.result;
+        if (cursor) {
+          restaurants.push(cursor.value);
+          cursor.continue();
+        } else {
+          callback(null, restaurants);
+        }
+      }
+
+      // Generic error handler
+      db.onerror = function(event) {
+        return callback(`IndexedDB Error: ${event.target.errorCode}`, null);
+      }
+    }
   }
 
   /**
@@ -145,7 +193,7 @@ class DBHelper {
    * Restaurant image URL.
    */
   static imageUrlForRestaurant(restaurant) {
-    return (`./img/${restaurant.photograph}`);
+    return (`./img/${restaurant.id}.jpg`);
   }
 
   /**
