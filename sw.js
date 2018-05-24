@@ -1,4 +1,4 @@
-let CACHE_NAME = 'mws-restaurant-v7';
+let CACHE_NAME = 'mws-restaurant-v21';
 
 self.addEventListener('fetch', function(event) {
   // console.log(`[Comment] fetch event listener: ${event.request.url}`);
@@ -11,10 +11,16 @@ self.addEventListener('fetch', function(event) {
         }
 
         // console.log(`[Comment] Fetching from server: ${event.request.url}`);
-        return fetch(event.request.url, { mode: 'no-cors' })
+        return fetch(event.request.url, { mode: 'no-cors', acceptEncoding: 'gzip' })
           .then(response => {
-            // console.log(`[Comment] fetch returned: ${response.headers.}`);
-            cache.put(event.request.url, response.clone());
+            // console.log(`[Comment] fetch returned: ${response.headers}.`);
+            cache.put(event.request.url, response.clone())
+              .then(_ => {
+                // console.log(`[Comment] ${event.request.url} added to cache.`);
+              })
+              .catch(err => {
+                console.log(`[Comment] Error adding ${event.request.url} to cache: ${err}.`);
+              });
             return response;
           })
           .catch(error => {
