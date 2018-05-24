@@ -71,7 +71,6 @@ fillCuisinesHTML = (cuisines = self.cuisines) => {
  */
 window.initMap = () => {
   updateRestaurants();
-  lazyLoadImages();
 
   // Avoid blocking critical path to improve performance score
   window.setTimeout(() => {
@@ -87,7 +86,7 @@ window.initMap = () => {
     });
 
     document.getElementById('map').setAttribute('role', 'application');
-  }, 1500);
+  }, 2500);
 }
 
 /**
@@ -109,6 +108,7 @@ updateRestaurants = () => {
     } else {
       resetRestaurants(restaurants);
       fillRestaurantsHTML();
+      lazyLoadImages();
     }
   })
 }
@@ -193,16 +193,11 @@ addMarkersToMap = (restaurants = self.restaurants) => {
   });
 }
 
+// Lazy load images
 lazyLoadImages = () => {
-  // Lazy load images
-  let lazyImages = [];
-
-  window.addEventListener('load', event => {
-    // Lazy load images
-    // Note: Use Array.prototype.slice.call to convert HTMLCollection to array
-    lazyImages = Array.prototype.slice.call(document.getElementsByClassName('restaurant-img'));
-    // console.log('[Comment] Found ' + lazyImages.length + ' lazy images');
-  });
+  // Note: Use Array.prototype.slice.call to convert HTMLCollection to array
+  let lazyImages = Array.prototype.slice.call(document.getElementsByClassName('restaurant-img'));
+  console.log('[Comment] Found ' + lazyImages.length + ' lazy images');
 
   function lazyLoad () {
     lazyImages.forEach(image => {
@@ -235,4 +230,6 @@ lazyLoadImages = () => {
 
   window.addEventListener('load', lazyLoad);
   window.addEventListener('scroll', lazyLoad);
+  window.addEventListener('resize', lazyLoad);
+  lazyLoad();
 }

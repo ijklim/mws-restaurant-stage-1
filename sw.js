@@ -1,4 +1,4 @@
-let CACHE_NAME = 'mws-restaurant-v21';
+let CACHE_NAME = 'mws-restaurant-v29';
 
 self.addEventListener('fetch', function(event) {
   // console.log(`[Comment] fetch event listener: ${event.request.url}`);
