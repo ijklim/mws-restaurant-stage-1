@@ -44,3 +44,9 @@
 #map {
   background-image: url('../../img/google-map.jpg');
 }
+
+/* To better fit small screens */
+.filter-options select {
+  height: 30px;
+  width: 170px;
+}
