@@ -7,5 +7,10 @@
     "start": "node server.js"
   },
   "author": "Ivan Lim",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-sass": "^4.0.1",
+    "gulp-uglify": "^3.0.0",
+  }
 }
