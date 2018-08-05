@@ -53,3 +53,38 @@ class FavoriteRestaurants {
     return favoriteRestaurantIds;
   }
 }
+
+createFavoriteButton = (restaurantId) => {
+  const favoriteButton = document.createElement('button');
+  favoriteButton.id = `btn-favorite-${restaurantId}`;
+  favoriteButton.className = "btn-favorite";
+  favoriteButton.restaurantId = restaurantId;
+  favoriteButton.addEventListener('click', toggleFavorite, { capture: false });
+
+  const favoriteButtonIcon = document.createElement('i');
+  favoriteButtonIcon.className = "material-icons";
+  favoriteButtonIcon.innerText = "star";
+  favoriteButtonIcon.restaurantId = restaurantId;
+  favoriteButton.append(favoriteButtonIcon);
+  changeFavoriteButtonSettings(favoriteButton);
+
+  return favoriteButton;
+};
+
+toggleFavorite = (event) => {
+  const restaurantId = event.target.restaurantId;
+  const favoriteButton = document.querySelector(`#btn-favorite-${restaurantId}`);
+  favoriteRestaurants.toggleFavorite(restaurantId);
+  changeFavoriteButtonSettings(favoriteButton);
+};
+
+changeFavoriteButtonSettings = (favoriteButton) => {
+  const restaurantId = favoriteButton.restaurantId;
+  if (favoriteRestaurants.isFavorite(restaurantId)) {
+    favoriteButton.classList.add("favorite");
+    favoriteButton.setAttribute('title', `Remove from favorite`);
+  } else {
+    favoriteButton.classList.remove("favorite");
+    favoriteButton.setAttribute('title', `Add to favorite`);
+  }
+};

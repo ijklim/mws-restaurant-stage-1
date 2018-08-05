@@ -1,5 +1,6 @@
 let restaurant;
 var map;
+let favoriteRestaurants = new FavoriteRestaurants();
 
 /**
  * Initialize Google map, called from HTML.
@@ -50,8 +51,11 @@ fetchRestaurantFromURL = (callback) => {
  * Create restaurant HTML and add it to the webpage
  */
 fillRestaurantHTML = (restaurant = self.restaurant) => {
+  const favoriteButton = createFavoriteButton(restaurant.id);
+
   const name = document.getElementById('restaurant-name');
   name.innerHTML = restaurant.name;
+  name.prepend(favoriteButton);
 
   const address = document.getElementById('restaurant-address');
   address.innerHTML = restaurant.address;

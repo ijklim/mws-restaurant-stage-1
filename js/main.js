@@ -161,18 +161,7 @@ createRestaurantHTML = (restaurant) => {
   li.append(info);
 
   // Button to toggle favorite restaurant
-  const favoriteButton = document.createElement('button');
-  favoriteButton.id = `btn-favorite-${restaurant.id}`;
-  favoriteButton.className = "btn-favorite";
-  favoriteButton.restaurantId = restaurant.id;
-  favoriteButton.addEventListener('click', toggleFavorite, { capture: false });
-
-  const favoriteButtonIcon = document.createElement('i');
-  favoriteButtonIcon.className = "material-icons";
-  favoriteButtonIcon.innerText = "star";
-  favoriteButtonIcon.restaurantId = restaurant.id;
-  favoriteButton.append(favoriteButtonIcon);
-  changeFavoriteButtonSettings(favoriteButton);
+  const favoriteButton = createFavoriteButton(restaurant.id);
 
   // Restaurant name with Favorite button in front
   const name = document.createElement('h1');
@@ -194,24 +183,6 @@ createRestaurantHTML = (restaurant) => {
   info.append(more)
 
   return li
-}
-
-toggleFavorite = (event) => {
-  const restaurantId = event.target.restaurantId;
-  const favoriteButton = document.querySelector(`#btn-favorite-${restaurantId}`);
-  favoriteRestaurants.toggleFavorite(restaurantId);
-  changeFavoriteButtonSettings(favoriteButton);
-}
-
-changeFavoriteButtonSettings = (favoriteButton) => {
-  const restaurantId = favoriteButton.restaurantId;
-  if (favoriteRestaurants.isFavorite(restaurantId)) {
-    favoriteButton.classList.add("favorite");
-    favoriteButton.setAttribute('title', `Remove from favorite`);
-  } else {
-    favoriteButton.classList.remove("favorite");
-    favoriteButton.setAttribute('title', `Add to favorite`);
-  }
 }
 
 /**

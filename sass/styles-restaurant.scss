@@ -3,3 +3,10 @@
 @import "stage1";
 @import "stage1-restaurant";
 @import "stage3";
+
+/* Bigger favorite icon */
+.btn-favorite {
+  .material-icons {
+    font-size: 22px;
+  }
+}
