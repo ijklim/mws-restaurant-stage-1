@@ -1,4 +1,4 @@
-let CACHE_NAME = 'mws-restaurant-v29';
+let CACHE_NAME = 'mws-restaurant-v49';
 
 self.addEventListener('fetch', function(event) {
   // console.log(`[Comment] fetch event listener: ${event.request.url}`);
@@ -35,6 +35,7 @@ self.addEventListener('fetch', function(event) {
 
 // Life Cycle: install
 self.addEventListener('install', function(event) {
+  console.log(`[Comment] Current cache '${CACHE_NAME}`);
   // console.log(`[Comment] Life cycle event 'install' triggered`);
 
   // Delete obsolete caches

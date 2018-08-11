@@ -11,6 +11,9 @@ let favoriteRestaurants = new FavoriteRestaurants();
 document.addEventListener('DOMContentLoaded', (event) => {
   fetchNeighborhoods();
   fetchCuisines();
+
+  const reviewFormModal = createReviewForm();
+  document.body.append(reviewFormModal);
 });
 
 /**
@@ -94,6 +97,7 @@ window.initMap = () => {
  * Update page and map for current restaurants.
  */
 updateRestaurants = () => {
+  // console.log('remove: updating restaurants');
   const cSelect = document.getElementById('cuisines-select');
   const nSelect = document.getElementById('neighborhoods-select');
 
@@ -134,6 +138,7 @@ resetRestaurants = (restaurants) => {
  */
 fillRestaurantsHTML = (restaurants = self.restaurants) => {
   const ul = document.getElementById('restaurants-list');
+  // console.log('remove: list of restaurants', restaurants);
   restaurants.forEach(restaurant => {
     ul.append(createRestaurantHTML(restaurant));
   });

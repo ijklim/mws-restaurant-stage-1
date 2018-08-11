@@ -1,3 +1,5 @@
+$bg-success: #28a745;
+
 @font-face {
   font-family: 'Material Icons';
   font-style: normal;
@@ -43,5 +45,51 @@
 
   &.favorite {
     color: red;
+  }
+}
+
+.modal {
+  background: white;
+  border-radius: 5px;
+  box-shadow: 5px 5px 3px 0 rgba(117, 124, 129, 0.12);
+
+  width: calc(100% - 60px);
+  max-width: 500px;
+  padding: 20px;
+
+  position: absolute;
+  top: 20vh;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 2;
+
+  input,
+  select,
+  textarea,
+  button {
+    font-size: 15px;
+    padding: 5px;
+    border-radius: 3px;
+    border: 1px solid #ccc;
+    margin-bottom: 10px;
+    width: 100%;
+  }
+
+  button {
+    float: right;
+    padding: 10px;
+    margin-left: 10px;
+    width: 30%;
+    cursor: pointer;
+
+    &.success {
+      background: $bg-success;
+      color: white;
+    }
+
+    &:hover {
+      background: lighten($bg-success, 20%);
+      color: black;
+    }
   }
 }
