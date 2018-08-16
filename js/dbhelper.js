@@ -7,70 +7,115 @@ class DBHelper {
    * Database URL.
    * Change this to restaurants.json file location on your server.
    */
-  static get DATABASE_URL() {
-    // return `./data/restaurants.json`;
-    return `http://localhost:1337/restaurants`;
-  }
+  // static get RESTAURANT_URL() {
+  //   // return `./data/restaurants.json`;
+  //   return `http://localhost:1337/restaurants`;
+  // }
+
+  // static get REVIEW_URL() {
+  //   return `http://localhost:1337/reviews`;
+  // }
 
   static get DATABASE_NAME() {
-    return `mws-idb-restaurants-v8`;
-  }
-
-  static get STORE_NAME() {
-    return `restaurants`;
+    return `mws-idb-v9`;
   }
 
   /**
    * Fetch all restaurants.
    */
   static async fetchRestaurants(callback) {
-    // Ref: https://github.com/localForage/localForage
-    localforage.config({
-      driver: localforage.INDEXEDDB,
+    const storeNameRestaurant = 'mws-restaurant';
+    const url = `http://localhost:1337/restaurants`;
+    const restaurantStorage = localforage.createInstance({
       name: DBHelper.DATABASE_NAME,
+      driver: localforage.INDEXEDDB,
       version: 1.0,
-      storeName: DBHelper.STORE_NAME,
+      storeName: storeNameRestaurant,
     });
 
-    localforage.getItem('restaurants')
+    const tableName = 'restaurants';
+
+    restaurantStorage.getItem(tableName)
       .then(result => {
         if (!result) {
-          return fetch(DBHelper.DATABASE_URL)
+          return fetch(url)
             .then(response => response.json())
             .then(json => {
               console.log(`[Comment] Successfully fetched restaurant data`);
 
-              localforage.setItem('restaurants', json);
+              restaurantStorage.setItem(tableName, json);
               return callback(null, json);
             })
             .catch(error => {
-              return callback(`Fetch request failed: ${error}`, null);
+              return callback(`Fetch restaurants request failed: ${error}`, null);
             });
         }
 
         return callback(null, result);
       })
       .catch(error => {
-        return callback(`LocalForage getItem failed: ${error}`, null);
+        return callback(`LocalForage getItem ${tableName} failed: ${error}`, null);
       });
+  }
+
+  /**
+   * Fetch review for a restaurant.
+   */
+  static fetchReviewsByRestaurantId(restaurantId) {
+    const storeNameReview = 'mws-review';
+    const url = `http://localhost:1337/reviews/?restaurant_id=${restaurantId}`;
+    const reviewStorage = localforage.createInstance({
+      name: DBHelper.DATABASE_NAME,
+      driver: localforage.INDEXEDDB,
+      version: 1.0,
+      storeName: storeNameReview,
+    });
+
+    const tableName = `reviews__${restaurantId}`;
+
+    return new Promise(async (resolve, reject) => {
+      await reviewStorage.getItem(tableName)
+        .then(result => {
+          if (!result) {
+            return fetch(url)
+              .then(response => response.json())
+              .then(json => {
+                console.log(`[Comment] Successfully fetched review data for restaurant ${restaurantId}`);
+
+                reviewStorage.setItem(tableName, json);
+                resolve(json);
+              })
+              .catch(error => {
+                reject(`Fetch restaurant ${restaurantId} reviews request failed: ${error}`);
+              });
+          }
+
+          resolve(result);
+        })
+        .catch(error => {
+          reject(`LocalForage getItem ${tableName} failed: ${error}`);
+        });
+    });
   }
 
   /**
    * Fetch a restaurant by its ID.
    */
-  static fetchRestaurantById(id, callback) {
+  static fetchRestaurantById(id) {
     // fetch all restaurants with proper error handling.
-    DBHelper.fetchRestaurants((error, restaurants) => {
-      if (error) {
-        callback(error, null);
-      } else {
-        const restaurant = restaurants.find(r => r.id == id);
-        if (restaurant) { // Got the restaurant
-          callback(null, restaurant);
-        } else { // Restaurant does not exist in the database
-          callback('Restaurant does not exist', null);
+    return new Promise((resolve, reject) => {
+      DBHelper.fetchRestaurants((error, restaurants) => {
+        if (error) {
+          reject(error);
+        } else {
+          const restaurant = restaurants.find(r => r.id == id);
+          if (restaurant) { // Got the restaurant
+            resolve(restaurant);
+          } else { // Restaurant does not exist in the database
+            reject('Restaurant does not exist', null);
+          }
         }
-      }
+      });
     });
   }
 

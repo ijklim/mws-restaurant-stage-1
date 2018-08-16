@@ -1,4 +1,5 @@
 let restaurant;
+let reviews;
 var map;
 let favoriteRestaurants = new FavoriteRestaurants();
 
@@ -35,15 +36,21 @@ fetchRestaurantFromURL = (callback) => {
     error = 'No restaurant id in URL'
     callback(error, null);
   } else {
-    DBHelper.fetchRestaurantById(id, (error, restaurant) => {
-      self.restaurant = restaurant;
-      if (!restaurant) {
-        console.error(error);
-        return;
-      }
-      fillRestaurantHTML();
-      callback(null, restaurant)
-    });
+    Promise.all([
+      DBHelper.fetchRestaurantById(id),
+      DBHelper.fetchReviewsByRestaurantId(id),
+    ])
+      .then((results) => {
+        self.restaurant = results[0];
+        self.restaurant.reviews = results[1];
+        console.log('remove', self.restaurant);
+
+        fillRestaurantHTML();
+        callback(null, self.restaurant)
+      })
+      .catch((error) => {
+        return callback(`fetchRestaurantFromURL failed: ${error}`, null);
+      });
   }
 }
 
