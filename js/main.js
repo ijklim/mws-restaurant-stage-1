@@ -11,9 +11,6 @@ let favoriteRestaurants = new FavoriteRestaurants();
 document.addEventListener('DOMContentLoaded', (event) => {
   fetchNeighborhoods();
   fetchCuisines();
-
-  const reviewFormModal = createReviewForm();
-  document.body.append(reviewFormModal);
 });
 
 /**

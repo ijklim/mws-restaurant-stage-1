@@ -1,4 +1,5 @@
 $bg-success: #28a745;
+$bg-default: rgb(221, 221, 221);
 
 @font-face {
   font-family: 'Material Icons';
@@ -10,6 +11,37 @@ $bg-success: #28a745;
     url(/node_modules/material-design-icons/iconfont/MaterialIcons-Regular.woff2) format('woff2'),
     url(/node_modules/material-design-icons/iconfont/MaterialIcons-Regular.woff) format('woff'),
     url(/node_modules/material-design-icons/iconfont/MaterialIcons-Regular.ttf) format('truetype');
+}
+
+input,
+select,
+textarea,
+button {
+  font-size: 15px;
+  padding: 5px;
+  border-radius: 3px;
+  border: 1px solid #ccc;
+  margin-bottom: 10px;
+  width: 100%;
+}
+
+button {
+  float: right;
+  padding: 10px;
+  margin-left: 10px;
+  width: auto;
+  cursor: pointer;
+  background: $bg-default;
+
+  &.success {
+    background: $bg-success;
+    color: white;
+  }
+
+  &.success:hover {
+    background: lighten($bg-success, 20%);
+    color: black;
+  }
 }
 
 .btn-favorite {
@@ -57,39 +89,13 @@ $bg-success: #28a745;
   max-width: 500px;
   padding: 20px;
 
-  position: absolute;
+  position: fixed;
   top: 20vh;
   left: 50%;
   transform: translateX(-50%);
-  z-index: 2;
-
-  input,
-  select,
-  textarea,
-  button {
-    font-size: 15px;
-    padding: 5px;
-    border-radius: 3px;
-    border: 1px solid #ccc;
-    margin-bottom: 10px;
-    width: 100%;
-  }
+  z-index: 10;
 
   button {
-    float: right;
-    padding: 10px;
-    margin-left: 10px;
     width: 30%;
-    cursor: pointer;
-
-    &.success {
-      background: $bg-success;
-      color: white;
-    }
-
-    &:hover {
-      background: lighten($bg-success, 20%);
-      color: black;
-    }
   }
 }

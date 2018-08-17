@@ -81,6 +81,9 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
   }
   // fill reviews
   fillReviewsHTML();
+
+  // Review button
+  document.getElementById('restaurant-review').appendChild(createReviewButton());
 }
 
 /**

@@ -71,64 +71,6 @@ createFavoriteButton = (restaurantId) => {
   return favoriteButton;
 };
 
-createReviewForm = () => {
-  const reviewFormModal = document.createElement('div');
-  reviewFormModal.id = 'modal-review';
-  reviewFormModal.className = 'modal';
-  reviewFormModal.innerHTML = `
-    <h3>Add Review</h3>
-    <h5>Restaurant Name: <span id="review-restaurant-name"></span></h5>
-  `;
-
-  const reviewForm = document.createElement('form');
-  reviewForm.id = 'form-review';
-  reviewForm.method = 'GET';
-  reviewForm.action = '/';
-  reviewForm.setAttribute('target', 'temp');
-
-  reviewForm.onsubmit = submitReview;
-
-  const reviewerName = document.createElement('input');
-  reviewerName.name = "name";
-  reviewerName.setAttribute('placeholder', 'Your name');
-  reviewerName.setAttribute('type', 'text');
-  reviewerName.required = true;
-
-  const reviewRating = document.createElement('select');
-  reviewRating.name = 'rating';
-  reviewRating.required = true;
-  for (rating = 0; rating <= 5; rating++) {
-    const option = document.createElement('option');
-    if (rating) {
-      option.setAttribute('value', rating);
-      option.innerText = rating;
-    } else {
-      option.setAttribute('value', '');
-      option.innerText = 'Please select rating...';
-    }
-
-    reviewRating.append(option);
-  }
-
-  const reviewText = document.createElement('textarea');
-  reviewText.name = 'comments';
-  reviewText.setAttribute('placeholder', 'Add you review here...');
-  reviewText.setAttribute('rows', 8);
-
-  const submitButton = document.createElement('button');
-  submitButton.innerText = 'Submit';
-  submitButton.className = 'success';
-  submitButton.setAttribute('type', 'submit');
-
-  reviewForm.append(reviewerName);
-  reviewForm.append(reviewRating);
-  reviewForm.append(reviewText);
-  reviewForm.append(submitButton);
-  reviewFormModal.append(reviewForm);
-
-  return reviewFormModal;
-}
-
 toggleFavorite = (event) => {
   const restaurantId = event.target.restaurantId;
   const favoriteButton = document.querySelector(`#btn-favorite-${restaurantId}`);
@@ -145,9 +87,4 @@ changeFavoriteButtonSettings = (favoriteButton) => {
     favoriteButton.classList.remove("favorite");
     favoriteButton.setAttribute('title', `Add to favorite`);
   }
-};
-
-submitReview = (event) => {
-  event.preventDefault();
-  console.log('todo: submit review');
 };

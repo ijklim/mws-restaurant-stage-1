@@ -7,14 +7,6 @@ class DBHelper {
    * Database URL.
    * Change this to restaurants.json file location on your server.
    */
-  // static get RESTAURANT_URL() {
-  //   // return `./data/restaurants.json`;
-  //   return `http://localhost:1337/restaurants`;
-  // }
-
-  // static get REVIEW_URL() {
-  //   return `http://localhost:1337/reviews`;
-  // }
 
   static get DATABASE_NAME() {
     return `mws-idb-v9`;
