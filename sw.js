@@ -1,8 +1,16 @@
-let CACHE_NAME = 'mws-restaurant-v82';
+let CACHE_NAME = 'mws-restaurant-v83';
 
 self.addEventListener('fetch', function(event) {
   // console.log(`[Comment] fetch event listener: ${event.request.url}`);
   // console.log(`>> mode: ${event.request.mode}`);
+  // console.log(`>> method: ${event.request.method}`);
+
+  // Should not retrieve POST response from cache
+  if (event.request.method === 'POST') {
+    // console.log(`>> event.request:`, event.request);
+    return fetch(event.request.url);
+  }
+
   event.respondWith(caches.open(CACHE_NAME).then(cache => {
     return cache.match(event.request)
       .then(response => {

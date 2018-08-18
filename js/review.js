@@ -146,19 +146,25 @@ submitReview = (event) => {
   const nameField = document.querySelector('input[name=name]');
   const ratingField = document.querySelector('select[name=rating]');
   const commentField = document.querySelector('textarea[name=comments]');
+
   const postData = {
-    "restaurant_id": restaurantIdField.value,
+    "restaurant_id": restaurantIdField.value * 1,
     "name": nameField.value,
-    "rating": ratingField.value,
+    "rating": ratingField.value * 1,
     "comments": commentField.value ? commentField.value : '',
   };
-
-  fetch(url, {
-    method: 'post',
+  const fetchOptions = {
+    method: 'POST',
     body: JSON.stringify(postData),
-  })
+  };
+  // console.info('[Comment] Form data to be posted', postData, fetchOptions);
+
+  fetch(url, fetchOptions)
     .then((response) => {
-      alert('Review has been submitted successfully');
+      // console.info('[Comment] Response from review submission', response);
+      if (response.status === 201 && response.statusText === 'Created') {
+        alert('Review has been submitted successfully');
+      }
     })
     .catch((error) => {
       console.log('todo: submit review negative response', error);
@@ -169,9 +175,6 @@ submitReview = (event) => {
       commentField.value = '';
       closeReviewForm();
     });
-
-
-  // console.log('todo: submit review', postData);
 };
 
 showElement = (element) => {
