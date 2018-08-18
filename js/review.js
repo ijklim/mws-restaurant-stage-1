@@ -48,6 +48,11 @@ createReviewForm = () => {
 
   reviewForm.onsubmit = submitReview;
 
+  const restaurantId = document.createElement('input');
+  restaurantId.name = "restaurant_id";
+  restaurantId.value = getParameterByName('id');
+  restaurantId.setAttribute('type', 'hidden');
+
   const reviewerName = document.createElement('input');
   reviewerName.name = "name";
   reviewerName.setAttribute('placeholder', 'Your name');
@@ -55,13 +60,20 @@ createReviewForm = () => {
   reviewerName.required = true;
 
   const reviewRating = document.createElement('select');
+  const maxRating = 5;
+  const minRating = 1;
   reviewRating.name = 'rating';
   reviewRating.required = true;
-  for (rating = 0; rating <= 5; rating++) {
+  for (rating = maxRating + 1; rating >= minRating; rating--) {
     const option = document.createElement('option');
-    if (rating) {
+    if (rating <= maxRating) {
       option.setAttribute('value', rating);
       option.innerText = rating;
+      if (rating === maxRating) {
+        option.innerText += ' (Highest)'
+      } else if (rating === minRating) {
+        option.innerText += ' (Lowest)'
+      }
     } else {
       option.setAttribute('value', '');
       option.innerText = 'Please select rating...';
@@ -85,6 +97,7 @@ createReviewForm = () => {
   cancelButton.setAttribute('type', 'button');
   cancelButton.addEventListener('click', closeReviewForm);
 
+  reviewForm.append(restaurantId);
   reviewForm.append(reviewerName);
   reviewForm.append(reviewRating);
   reviewForm.append(reviewText);
@@ -127,17 +140,44 @@ closeReviewForm = () => {
 
 submitReview = (event) => {
   event.preventDefault();
-  console.log('todo: submit review');
+
+  const url = `http://localhost:1337/reviews/`;
+  const restaurantIdField = document.querySelector('input[name=restaurant_id]');
+  const nameField = document.querySelector('input[name=name]');
+  const ratingField = document.querySelector('select[name=rating]');
+  const commentField = document.querySelector('textarea[name=comments]');
+  const postData = {
+    "restaurant_id": restaurantIdField.value,
+    "name": nameField.value,
+    "rating": ratingField.value,
+    "comments": commentField.value ? commentField.value : '',
+  };
+
+  fetch(url, {
+    method: 'post',
+    body: JSON.stringify(postData),
+  })
+    .then((response) => {
+      alert('Review has been submitted successfully');
+    })
+    .catch((error) => {
+      console.log('todo: submit review negative response', error);
+    })
+    .finally(() => {
+      nameField.value = '';
+      ratingField.value ='';
+      commentField.value = '';
+      closeReviewForm();
+    });
+
+
+  // console.log('todo: submit review', postData);
 };
 
 showElement = (element) => {
   element.style.display = 'block';
-  // if (element.className.indexOf('d-none') >= 0) {
-  //   element.className = element.className.replace('d-none', '').trim();
-  // }
 }
 
 hideElement = (element) => {
   element.style.display = 'none';
-  // element.className += ' d-none';
 }

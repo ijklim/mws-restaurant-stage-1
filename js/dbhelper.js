@@ -65,29 +65,31 @@ class DBHelper {
 
     const tableName = `reviews__${restaurantId}`;
 
-    return new Promise(async (resolve, reject) => {
-      await reviewStorage.getItem(tableName)
+    return new Promise((resolve, reject) => {
+      reviewStorage.getItem(tableName)
         .then(result => {
           if (!result) {
-            return fetch(url)
-              .then(response => response.json())
-              .then(json => {
-                console.log(`[Comment] Successfully fetched review data for restaurant ${restaurantId}`);
-
-                reviewStorage.setItem(tableName, json);
-                resolve(json);
-              })
-              .catch(error => {
-                reject(`Fetch restaurant ${restaurantId} reviews request failed: ${error}`);
-              });
+            fetchAndUpdateCache()
+              .then(resolve)
+              .catch(reject);
+          } else {
+            console.log(`[Comment] Successfully fetched review data from cache for restaurant ${restaurantId}`);
+            fetchAndUpdateCache();  // Update cache if possible, status not important
+            resolve(result);
           }
-
-          resolve(result);
         })
         .catch(error => {
           reject(`LocalForage getItem ${tableName} failed: ${error}`);
         });
     });
+
+    async function fetchAndUpdateCache() {
+      const response = await fetch(url);
+      const json = await response.json();
+      reviewStorage.setItem(tableName, json);
+      console.log(`[Comment] Successfully fetched review data for restaurant ${restaurantId} and updated cache`);
+      return json;
+    }
   }
 
   /**

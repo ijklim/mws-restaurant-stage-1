@@ -43,7 +43,6 @@ fetchRestaurantFromURL = (callback) => {
       .then((results) => {
         self.restaurant = results[0];
         self.restaurant.reviews = results[1];
-        console.log('remove', self.restaurant);
 
         fillRestaurantHTML();
         callback(null, self.restaurant)
@@ -111,9 +110,6 @@ fillRestaurantHoursHTML = (operatingHours = self.restaurant.operating_hours) => 
  */
 fillReviewsHTML = (reviews = self.restaurant.reviews) => {
   const container = document.getElementById('reviews-container');
-  // const title = document.createElement('h2');
-  // title.innerHTML = 'Reviews';
-  // container.appendChild(title);
 
   if (!reviews) {
     const noReviews = document.createElement('p');
@@ -121,10 +117,22 @@ fillReviewsHTML = (reviews = self.restaurant.reviews) => {
     container.appendChild(noReviews);
     return;
   }
+
   const ul = document.getElementById('reviews-list');
-  reviews.forEach(review => {
-    ul.appendChild(createReviewHTML(review));
-  });
+  // Show newest reviews first
+  reviews
+    .map((review) => {
+      return {
+        ...review,
+        dateValue: (new Date(review.createdAt)).valueOf(),
+      }
+    })
+    .sort((a, b) => {
+      return a.dateValue < b.dateValue;
+    })
+    .forEach((review) => {
+      ul.appendChild(createReviewHTML(review));
+    });
   container.appendChild(ul);
 }
 
@@ -139,10 +147,13 @@ createReviewHTML = (review) => {
   header.innerHTML = review.name;
   li.appendChild(header);
 
-  const date = document.createElement('span');
-  date.innerHTML = review.date;
-  date.className = "right";
-  header.appendChild(date);
+  if (review.createdAt) {
+    const date = document.createElement('span');
+    date.innerHTML = (new Date(review.createdAt)).toDateString();
+    date.className = "right";
+    header.appendChild(date);
+  }
+
 
   const body = document.createElement('div');
   li.appendChild(body);
