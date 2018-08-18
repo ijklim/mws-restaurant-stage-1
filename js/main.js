@@ -9,8 +9,10 @@ let favoriteRestaurants = new FavoriteRestaurants();
  * Fetch neighborhoods and cuisines as soon as the page is loaded.
  */
 document.addEventListener('DOMContentLoaded', (event) => {
+  // console.log(`[Comment] Preparing to fetchNeighborhoods and fetchCuisines`);
   fetchNeighborhoods();
   fetchCuisines();
+  updateRestaurants();
 });
 
 /**
@@ -23,6 +25,7 @@ fetchNeighborhoods = () => {
 
     self.neighborhoods = neighborhoods;
     fillNeighborhoodsHTML();
+    // console.log(`[Comment] self.neighborhoods`, self.neighborhoods);
   });
 }
 
@@ -71,7 +74,7 @@ fillCuisinesHTML = (cuisines = self.cuisines) => {
  * Initialize Google map, called from HTML.
  */
 window.initMap = () => {
-  updateRestaurants();
+  // updateRestaurants();
 
   // Avoid blocking critical path to improve performance score
   window.setTimeout(() => {
@@ -87,6 +90,8 @@ window.initMap = () => {
     });
 
     document.getElementById('map').setAttribute('role', 'application');
+
+    addMarkersToMap();
   }, 2500);
 }
 
@@ -139,7 +144,7 @@ fillRestaurantsHTML = (restaurants = self.restaurants) => {
   restaurants.forEach(restaurant => {
     ul.append(createRestaurantHTML(restaurant));
   });
-  addMarkersToMap();
+  // addMarkersToMap();
 }
 
 /**

@@ -69,11 +69,12 @@ class DBHelper {
       reviewStorage.getItem(tableName)
         .then(result => {
           if (!result) {
+            // console.log(`[Comment] ${tableName} not found in cache`);
             fetchAndUpdateCache()
               .then(resolve)
               .catch(reject);
           } else {
-            console.log(`[Comment] Successfully fetched review data from cache for restaurant ${restaurantId}`);
+            // console.log(`[Comment] Successfully fetched review data from cache for restaurant ${restaurantId}`);
             fetchAndUpdateCache();  // Update cache if possible, status not important
             resolve(result);
           }
@@ -84,11 +85,16 @@ class DBHelper {
     });
 
     async function fetchAndUpdateCache() {
-      const response = await fetch(url);
-      const json = await response.json();
-      reviewStorage.setItem(tableName, json);
-      console.log(`[Comment] Successfully fetched review data for restaurant ${restaurantId} and updated cache`);
-      return json;
+      try {
+        const response = await fetch(url);
+        const json = await response.json();
+        reviewStorage.setItem(tableName, json);
+        // console.log(`[Comment] Successfully fetched review data for restaurant ${restaurantId} and updated cache`);
+        return json;
+      }
+      catch(error) {
+        Promise.reject(`Error encountered in fetchAndUpdateCache(): ${error}`);
+      }
     }
   }
 

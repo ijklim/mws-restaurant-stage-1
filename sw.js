@@ -1,37 +1,44 @@
-let CACHE_NAME = 'mws-restaurant-v49';
+let CACHE_NAME = 'mws-restaurant-v82';
 
 self.addEventListener('fetch', function(event) {
   // console.log(`[Comment] fetch event listener: ${event.request.url}`);
+  // console.log(`>> mode: ${event.request.mode}`);
   event.respondWith(caches.open(CACHE_NAME).then(cache => {
     return cache.match(event.request)
       .then(response => {
         if (response) {
           // console.log(`[Comment] Found in cache: ${event.request.url}`);
+          fetchAndCacheUrl(event.request.url, cache);   // Fetch and cache newest data, status not important
           return response;
         }
 
-        // console.log(`[Comment] Fetching from server: ${event.request.url}`);
-        return fetch(event.request.url, { mode: 'no-cors', acceptEncoding: 'gzip' })
-          .then(response => {
-            // console.log(`[Comment] fetch returned: ${response.headers}.`);
-            cache.put(event.request.url, response.clone())
-              .then(_ => {
-                // console.log(`[Comment] ${event.request.url} added to cache.`);
-              })
-              .catch(err => {
-                console.log(`[Comment] Error adding ${event.request.url} to cache: ${err}.`);
-              });
-            return response;
-          })
-          .catch(error => {
-            return new Response(`Network is down, failed to fetch ${event.request.url}`);
-          });
+        return fetchAndCacheUrl(event.request.url, cache);
       })
       .catch(error => {
         return new Response(`Cache match has encountered an error: ${error}`);
       });
   }));
 });
+
+async function fetchAndCacheUrl(url, cache) {
+  try {
+    const { hostname } = new URL(url);
+    const fetchOptions = {};
+    const hostsThatAllowCors = ['fonts.gstatic.com', 'gstatic.com', 'localhost'];
+
+    if (!hostsThatAllowCors.includes(hostname)) {
+      fetchOptions.mode = "no-cors";
+    }
+    // console.info(`[Comment] fetchAndCacheUrl: ${url}`);
+    const response = await fetch(url, fetchOptions);
+    cache.put(url, response.clone());
+    return response;
+  }
+  catch(error) {
+    Promise.reject(`Error encountered in fetchAndCacheUrl(): ${error}`);
+  }
+
+};
 
 // Life Cycle: install
 self.addEventListener('install', function(event) {
