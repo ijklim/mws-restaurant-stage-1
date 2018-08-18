@@ -167,7 +167,8 @@ submitReview = (event) => {
       }
     })
     .catch((error) => {
-      console.log('todo: submit review negative response', error);
+      // Add pending review to database
+      DBHelper.addReviewToQueue(postData);
     })
     .finally(() => {
       nameField.value = '';

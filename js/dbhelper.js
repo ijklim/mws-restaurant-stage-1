@@ -67,7 +67,7 @@ class DBHelper {
 
     return new Promise((resolve, reject) => {
       reviewStorage.getItem(tableName)
-        .then(result => {
+        .then((result) => {
           if (!result) {
             // console.log(`[Comment] ${tableName} not found in cache`);
             fetchAndUpdateCache()
@@ -79,7 +79,7 @@ class DBHelper {
             resolve(result);
           }
         })
-        .catch(error => {
+        .catch((error) => {
           reject(`LocalForage getItem ${tableName} failed: ${error}`);
         });
     });
@@ -236,4 +236,29 @@ class DBHelper {
     return marker;
   }
 
+  static addReviewToQueue(review) {
+    const storeNameReviewQueue = 'mws-review-queue';
+    const reviewQueueStorage = localforage.createInstance({
+      name: DBHelper.DATABASE_NAME,
+      driver: localforage.INDEXEDDB,
+      version: 1.0,
+      storeName: storeNameReviewQueue,
+    });
+
+    const tableName = 'reviews';
+
+    console.log('remove: checking queue');
+
+    // Retrieve existing queue
+    reviewQueueStorage.getItem(tableName)
+      .then((result) => {
+        const currentQueue = result ? result : [];
+        currentQueue.push(review);
+        reviewQueueStorage.setItem(tableName, currentQueue);
+        console.info('[Comment] Review added to queue');
+      })
+      .catch((error) => {
+        console.error(`Could not add review to queue`, error);
+      });
+  }
 }
