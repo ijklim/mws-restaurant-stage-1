@@ -10,6 +10,11 @@ function registerServiceWorker() {
   navigator.serviceWorker.register('./sw.js')
     .then(reg => {
       // console.log(`[Comment] Service worker registered under scope: ${reg.scope}`);
+      if (reg.waiting) {
+        // console.log(`[Comment] Service worker is waiting`);
+      } else {
+        // console.log(`[Comment] Service worker is registered`, reg);
+      }
     })
     .catch(err => {
       console.log(`Encountered an error registering service worker: ${err}`);
@@ -23,5 +28,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
   // Change footer info
   document.querySelector("footer").innerHTML = `Copyright (c) ${(new Date).getFullYear()}
-  <a href="./"><strong>Restaurant Reviews - 1.0.2</strong></a> All Rights Reserved.`;
+  <a href="./"><strong>Restaurant Reviews - 2.0.0</strong></a> All Rights Reserved.`;
+
+  DBHelper.postReviewsInQueue();
 });

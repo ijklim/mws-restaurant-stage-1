@@ -244,10 +244,7 @@ class DBHelper {
       version: 1.0,
       storeName: storeNameReviewQueue,
     });
-
     const tableName = 'reviews';
-
-    console.log('remove: checking queue');
 
     // Retrieve existing queue
     reviewQueueStorage.getItem(tableName)
@@ -260,5 +257,47 @@ class DBHelper {
       .catch((error) => {
         console.error(`Could not add review to queue`, error);
       });
+  }
+
+  static async postReviewsInQueue() {
+    if (!navigator.onLine) {
+      return;
+    }
+
+    console.log('DBHelper: Checking whether there is any review in queue waiting to be posted');
+    const storeNameReviewQueue = 'mws-review-queue';
+    const reviewQueueStorage = localforage.createInstance({
+      name: DBHelper.DATABASE_NAME,
+      driver: localforage.INDEXEDDB,
+      version: 1.0,
+      storeName: storeNameReviewQueue,
+    });
+    const tableName = 'reviews';
+
+    const reviews = await reviewQueueStorage.getItem(tableName);
+    if (!reviews || reviews.length === 0) return;
+
+    console.log('Found review(s) in queue', reviews);
+    const url = `http://localhost:1337/reviews/`;
+    const fetchOptions = {
+      method: 'POST',
+    };
+    let response;
+    const reviewsSubmittedSuccessfully = [];
+    for (const reviewIndex in reviews) {
+      fetchOptions.body = JSON.stringify(reviews[reviewIndex]);
+      response = await fetch(url, fetchOptions);
+      if (response.status === 201 && response.statusText === 'Created') {
+        console.log(`Review #${reviewIndex} has been resubmitted successfully`);
+        reviewsSubmittedSuccessfully.push(reviewIndex * 1);
+      }
+    };
+
+    const reviewsToBeSubmittedAgain = reviews.filter((_, index) => {
+      return !reviewsSubmittedSuccessfully.includes(index);
+    });
+
+    console.log('remove reviewsToBeSubmittedAgain/reviewsSubmittedSuccessfully', reviewsToBeSubmittedAgain, reviewsSubmittedSuccessfully);
+    reviewQueueStorage.setItem(tableName, reviewsToBeSubmittedAgain);
   }
 }
