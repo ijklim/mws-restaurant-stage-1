@@ -1,8 +1,8 @@
-# Mobile Web Specialist Certification Course: Stage 2
+# Mobile Web Specialist Certification Course: Stage 3
 
 ## Installation instructions for Windows
 
-Clone the server repository - https://github.com/ijklim/mws-restaurant-stage-2. Follow the README instructions to run the server.
+Clone the server repository - https://github.com/ijklim/mws-restaurant-stage-3. Follow the README instructions to run the server.
 
 Install Node.js and Express server (this has better performance compared to Python 3 server).
 
