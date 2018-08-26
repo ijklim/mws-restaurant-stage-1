@@ -83,6 +83,7 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
 
   // Review button
   document.getElementById('restaurant-review').appendChild(createReviewButton());
+  document.getElementById('restaurant-review').appendChild(createRefreshReviewsButton());
 }
 
 /**
@@ -119,6 +120,9 @@ fillReviewsHTML = (reviews = self.restaurant.reviews) => {
   }
 
   const ul = document.getElementById('reviews-list');
+  console.log(`[Comment] Clear previous reviews`);
+  ul.innerHTML = '';
+
   // Show newest reviews first
   reviews
     .map((review) => {
@@ -128,10 +132,11 @@ fillReviewsHTML = (reviews = self.restaurant.reviews) => {
       }
     })
     .sort((a, b) => {
-      return a.dateValue < b.dateValue;
+      return a.dateValue > b.dateValue;
     })
-    .forEach((review) => {
-      ul.appendChild(createReviewHTML(review));
+    .forEach((review, reviewIndex) => {
+      ul.prepend(createReviewHTML(reviewIndex, review));
+      // ul.appendChild(createReviewHTML(reviewIndex, review));
     });
   container.appendChild(ul);
 }
@@ -139,12 +144,12 @@ fillReviewsHTML = (reviews = self.restaurant.reviews) => {
 /**
  * Create review HTML and add it to the webpage.
  */
-createReviewHTML = (review) => {
+createReviewHTML = (reviewIndex, review) => {
   const li = document.createElement('li');
 
   const header = document.createElement('div');
   header.className = "header";
-  header.innerHTML = review.name;
+  header.innerHTML = `<small>#${reviewIndex + 1}.</small> ${review.name}`;
   li.appendChild(header);
 
   if (review.createdAt) {

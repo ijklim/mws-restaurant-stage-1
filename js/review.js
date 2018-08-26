@@ -9,6 +9,23 @@ createReviewButton = () => {
   return reviewButton;
 }
 
+createRefreshReviewsButton = () => {
+  const refreshReviewsButton = document.createElement('button');
+  refreshReviewsButton.innerText = "Refresh Reviews";
+  refreshReviewsButton.addEventListener('click', () => {
+    const id = getParameterByName('id');
+    console.log(`[Comment] Retrieving reviews for restaurant #${id}`);
+    DBHelper.fetchReviewsByRestaurantId(id)
+      .then((reviews) => {
+        console.log(`[Comment] New list of reviews:`, reviews);
+        self.restaurant.reviews = reviews;
+        fillReviewsHTML();
+      });
+  });
+
+  return refreshReviewsButton;
+}
+
 createModalOverlay = () => {
   const modalOverlay = document.createElement('div');
   modalOverlay.id = MODAL_OVERLAY_ID;
