@@ -14,7 +14,7 @@ createRefreshReviewsButton = () => {
   refreshReviewsButton.innerText = "Refresh Reviews";
   refreshReviewsButton.addEventListener('click', () => {
     const id = getParameterByName('id');
-    console.log(`[Comment] Retrieving reviews for restaurant #${id}`);
+    console.log(`[Comment] Retrieving reviews for restaurant #${id} at ` + new Date().toLocaleTimeString());
     DBHelper.fetchReviewsByRestaurantId(id)
       .then((reviews) => {
         console.log(`[Comment] New list of reviews:`, reviews);
@@ -180,6 +180,7 @@ submitReview = (event) => {
     .then((response) => {
       // console.info('[Comment] Response from review submission', response);
       if (response.status === 201 && response.statusText === 'Created') {
+        console.log('Positive response from server at ' + new Date().toLocaleTimeString());
         alert('Review has been submitted successfully');
       }
     })

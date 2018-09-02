@@ -9,7 +9,7 @@ class DBHelper {
    */
 
   static get DATABASE_NAME() {
-    return `mws-idb-v9`;
+    return `mws-idb-v10`;
   }
 
   /**
